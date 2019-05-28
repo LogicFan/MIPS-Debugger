@@ -13,7 +13,7 @@ struct Machine final {
     mutable Instruction low_;
     mutable Instruction program_counter_;
 
-    std::stack<std::function<void(Machine &machine)>> undo_stack_;
+    std::stack<std::function<void()>> undo_stack_;
 
     bool break_;
     unsigned long counter_;
@@ -40,7 +40,7 @@ struct Machine final {
 
     void set_break();
 
-    void add_undo(std::function<void(Machine &machine)> const &undo);
+    void add_undo(std::function<void()> const &undo);
 
     void load(std::vector<Instruction> &&code);
     void exec(Instruction const &inst);

@@ -117,7 +117,7 @@ int Machine::get_pc(bool warn) {
 
 void Machine::set_break() { break_ = true; }
 
-void Machine::add_undo(std::function<void(Machine &machine)> const &undo) {
+void Machine::add_undo(std::function<void()> const &undo) {
     undo_stack_.push(undo);
 }
 
@@ -138,9 +138,13 @@ void Machine::exec(Instruction const &inst) {
 }
 
 void Machine::pervious() {
-    --counter_;
-    undo_stack_.top()(*this);
-    undo_stack_.pop();
+    if(counter_ > 1) {
+        --counter_;
+        undo_stack_.top()();
+        undo_stack_.pop();
+    } else {
+        std::cout << "Error: There is no pervious steps!" << std::endl; 
+    }
 }
 
 bool Machine::next() {
@@ -163,7 +167,7 @@ bool Machine::next() {
         exec(next_inst);
     } catch (std::runtime_error const &e) {
         std::cout << e.what() << std::endl;
-        undo_stack_.top()(*this);
+        undo_stack_.top()();
         undo_stack_.pop();
         return false;
     }
