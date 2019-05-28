@@ -39,8 +39,5 @@ struct Instruction_base : public Data_base {
 };
 
 inline std::ostream &operator<<(std::ostream &out, Instruction const &inst) {
-    if(inst) {
-        return inst->print(out);
-    }
-    return out;
+    return inst->print(out);
 }
