@@ -152,7 +152,7 @@ bool Machine::next() {
 
     Instruction &next_inst = memory_[pc];
     if (!next_inst) {
-        std::runtime_error{"Error: Accessing non-initialized memory!"};
+        throw std::runtime_error{"Error: Accessing non-initialized memory!"};
     }
 
     std::cout << "[" << std::right << std::hex << std::setw(20)
