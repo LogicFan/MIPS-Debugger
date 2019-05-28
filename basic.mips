@@ -1,0 +1,6 @@
+lis $1
+.word 1
+; break
+lis $2
+.word 2
+add $3, $2, $1

@@ -1,0 +1,21 @@
+; break
+abc:
+.word 25
+add $1, $2, $3
+sub $1, $2, $3
+mult $1, $2, $3
+multu $1, $2, $3
+div $1, $2, $3
+divu $1, $2, $3
+mfhi $1
+mfhi $1
+lis $1
+lw $1, -1($2)
+sw $1, -1($2)
+slt $1, $2, $3
+sltu $1, $2, $3
+beq $1, $2, -1
+bne $1, $2, -1
+jr $1
+jalr $1
+beq $1, $2, hello
