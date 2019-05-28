@@ -70,7 +70,7 @@ RESUME:
             int from =
                 dynamic_cast<word *>(machine.register_[reg].get())->from_;
             if (from != 0) {
-                std::cout << "This register is from " << std::setw(20) << std::setfill('0') << from << std::setfill(' ') << std::endl;
+                std::cout << "This register is from " << std::right << std::setw(20) << std::setfill('0') << from << std::setfill(' ') << std::left << std::endl;
             } else {
                 std::cout << "This register is from nowhere" << std::endl;
             }
