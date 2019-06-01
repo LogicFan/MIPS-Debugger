@@ -48,8 +48,7 @@ struct Machine final {
 
     void pervious();
     bool next(bool resume = false);
-    // void start();
-    // void roll_back(size_t counter_id);
+    bool roll_back(size_t counter_id);
 
     friend void machine_test();
 };

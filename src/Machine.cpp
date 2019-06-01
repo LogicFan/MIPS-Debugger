@@ -232,3 +232,23 @@ Machine &Machine::operator=(Machine const &rhs) {
     new (this) Machine{rhs};
     return *this;
 }
+
+bool Machine::roll_back(size_t counter_id) {
+    if (counter_id == 0 || counter_id >= counter_) {
+        std::cout << "Error: Cannot rollback to ";
+        std::cout << "[" << std::hex << std::setw(20) << std::setfill('0')
+                  << counter_id << "] ";
+        std::cout << std::dec;
+        std::cout << std::setfill(' ');
+        std::cout << "!" << std::endl;
+        return false;
+    }
+
+    while (counter_id != counter_) {
+        pervious();
+    }
+
+    std::cout << "Back to ";
+    next();
+    return true;
+}

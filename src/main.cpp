@@ -82,7 +82,11 @@ RESUME:
                           << std::endl;
             }
         } else if (str == "rollback") {
-            std::cout << machine << std::endl;
+            size_t rollback_id;
+            std::cin >> rollback_id;
+            if (machine.roll_back(rollback_id)) {
+                std::cout << machine << std::endl;
+            }
         }
     }
 
