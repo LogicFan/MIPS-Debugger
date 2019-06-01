@@ -38,9 +38,16 @@ class word : public Instruction_base {
             << "0x" << std::setw(8) << std::hex << std::setfill('0') << word_;
         std::cout << std::dec;
         std::cout << std::setfill(' ');
+        if(label_ != "") {
+            out << "[" << label_ << "]";
+        }
+        return out;
     }
 
-    void resolve_symbol(size_t self) override { word_ = symbol_table[label_]; }
-
+    void resolve_symbol(size_t self) override {
+        if (label_ != "") {
+            word_ = symbol_table[label_];
+        }
+    }
     friend void word_info(Instruction_base *reg);
 };

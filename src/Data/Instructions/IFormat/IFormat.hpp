@@ -35,27 +35,4 @@ class IFormat : public Instruction_base {
         }
         return i_ | (t_ << 16) | (s_ << 21) | (o_ << 26);
     }
-
-    std::ostream &print(std::ostream &out, std::string const &inst,
-                        std::string const &label = "") {
-        out << std::left << std::setw(5) << inst;
-
-        if (inst[0] == 'b') {
-            std::cout << "$" << std::setw(2) << s_ << ",";
-            std::cout << "$" << std::setw(2) << t_ << ",";
-            if (label == "") {
-                std::cout << std::dec << static_cast<short>(i_);
-            } else {
-                std::cout << label;
-            }
-        } else {
-            std::cout << "$" << std::setw(2) << t_ << ",";
-            std::cout << std::setw(6) << static_cast<short>(i_) << "(";
-            std::cout << "$" << std::setw(2) << s_ << ")";
-        }
-
-        std::cout << std::right;
-
-        return out;
-    }
 };

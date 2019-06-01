@@ -21,7 +21,12 @@ class LW : public IFormat {
     Instruction clone_inst() override { return std::make_unique<LW>(*this); }
 
     std::ostream &print(std::ostream &out) override {
-        return IFormat::print(out, "lw");
+        out << std::left << std::setw(5) << "lw";
+        out << "$" << std::setw(2) << t_ << ",";
+        out << std::setw(6) << static_cast<short>(i_) << "(";
+        out << "$" << std::setw(2) << s_ << ")";
+        out << std::right;
+        return out;
     }
 };
 
