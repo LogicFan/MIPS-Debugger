@@ -32,4 +32,11 @@ inline void MULTU::exec(Machine &machine) {
 
     machine.set_high(reinterpret_cast<int *>(&temp)[0]);
     machine.set_low(reinterpret_cast<int *>(&temp)[1]);
+    if (is_small_endian()) {
+        machine.set_high(reinterpret_cast<int *>(&temp)[1]);
+        machine.set_low(reinterpret_cast<int *>(&temp)[0]);
+    } else {
+        machine.set_high(reinterpret_cast<int *>(&temp)[0]);
+        machine.set_low(reinterpret_cast<int *>(&temp)[1]);
+    }
 }
