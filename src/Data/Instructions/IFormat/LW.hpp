@@ -26,7 +26,7 @@ class LW : public IFormat {
 };
 
 inline void LW::exec(Machine &machine) {
-    int reg_s_ = machine.get_reg(s_);
+    long reg_s_ = static_cast<unsigned>(machine.get_reg(s_));
     int offset = static_cast<short>(i_);
     int value = machine.get_mem(reg_s_ + offset);
 

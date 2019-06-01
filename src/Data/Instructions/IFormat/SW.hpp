@@ -25,7 +25,7 @@ class SW : public IFormat {
 };
 
 inline void SW::exec(Machine &machine) {
-    int reg_s_ = machine.get_reg(s_);
+    long reg_s_ = static_cast<unsigned int>(machine.get_reg(s_));
     int reg_t_ = machine.get_reg(t_);
     int offset = static_cast<short>(i_);
     
