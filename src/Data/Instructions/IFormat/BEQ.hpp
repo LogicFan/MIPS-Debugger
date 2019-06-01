@@ -39,20 +39,10 @@ class BEQ : public IFormat {
 };
 
 inline void BEQ::exec(Machine &machine) {
-    machine.add_undo([](){});
-
     int reg_s_ = machine.get_reg(s_);
     int reg_t_ = machine.get_reg(t_);
     int pc = machine.get_pc();
     int offset = static_cast<short>(i_);
-
-    machine.undo_stack_.pop();
-    std::function<void()> undo =
-        [&machine = machine,
-         pc = machine.program_counter_->clone_inst().release()]() {
-            machine.program_counter_ = Instruction{pc};
-        };
-    machine.add_undo(undo);
 
     if (reg_s_ == reg_t_) {
         machine.set_pc(pc + offset * 4);

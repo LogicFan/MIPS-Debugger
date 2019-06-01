@@ -24,21 +24,9 @@ class MULT : public RFormat {
 };
 
 inline void MULT::exec(Machine &machine) {
-    machine.add_undo([](){});
-
     int reg_s_ = machine.get_reg(s_);
     int reg_t_ = machine.get_reg(t_);
     long temp = static_cast<long>(reg_s_) * static_cast<long>(reg_t_);
-
-    machine.undo_stack_.pop();
-    std::function<void()> undo =
-        [&machine = machine, high = machine.high_->clone_inst().release(),
-         low = machine.low_->clone_inst().release()]() {
-            machine.high_ = Instruction{high};
-            machine.low_ = Instruction{low};
-        };
-    machine.add_undo(undo);
-
     machine.set_high(reinterpret_cast<int *>(&temp)[0]);
     machine.set_low(reinterpret_cast<int *>(&temp)[1]);
 }
