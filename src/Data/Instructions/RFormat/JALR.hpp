@@ -17,6 +17,7 @@ class JALR : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<JALR>(*this); }
+    Instruction clone_inst() override { return std::make_unique<JALR>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "jalr", -1, s_, -1);
