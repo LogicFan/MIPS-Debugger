@@ -128,12 +128,12 @@ void Machine::load(std::vector<Instruction> &&code) {
 }
 
 void Machine::exec(Instruction const &inst) {
-    ++counter_;
-
     int pc = get_pc();
     set_pc(pc + 4, false);
 
     inst->exec(*this);
+
+    ++counter_;
 }
 
 void Machine::pervious() {
