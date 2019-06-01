@@ -25,7 +25,7 @@ class word : public Instruction_base {
     int to_binary(bool warn) override { return word_; }
 
     void exec(Machine &machine) override {
-        std::cout << "Warning : Executing word instruction!";
+        std::cout << "Warning: Executing word instruction!";
         std::cout << std::endl;
         Instruction_base::parse(word_)->exec(machine);
     }
