@@ -28,6 +28,10 @@ inline void DIV::exec(Machine &machine) {
     int reg_s_ = machine.get_reg(s_);
     int reg_t_ = machine.get_reg(t_);
 
+    if (reg_t_ == 0) {
+        throw std::runtime_error{"Error: Dividing zero!"};
+    }
+
     machine.set_high(reg_s_ % reg_t_);
     machine.set_low(reg_s_ / reg_t_);
 }

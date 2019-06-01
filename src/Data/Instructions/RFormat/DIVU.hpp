@@ -28,6 +28,10 @@ inline void DIVU::exec(Machine &machine) {
     unsigned int reg_s_ = static_cast<unsigned int>(machine.get_reg(s_));
     unsigned int reg_t_ = static_cast<unsigned int>(machine.get_reg(t_));
 
+    if (reg_t_ == 0) {
+        throw std::runtime_error{"Error: Dividing zero!"};
+    }
+
     machine.set_high(static_cast<int>(reg_s_ % reg_t_));
     machine.set_low(static_cast<int>(reg_s_ / reg_t_));
 }
