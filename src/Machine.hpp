@@ -24,7 +24,7 @@ struct Machine final {
 
     Machine();
     Machine(Machine const &rhs);
-    ~Machine() { std::cout << "Destruct " << this << std::endl; }
+    ~Machine() = default;
 
     Machine &operator=(Machine const &rhs);
 
