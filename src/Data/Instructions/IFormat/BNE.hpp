@@ -27,7 +27,15 @@ class BNE : public IFormat {
     Instruction clone_inst() override { return std::make_unique<BNE>(*this); }
 
     std::ostream &print(std::ostream &out) override {
-        return IFormat::print(out, "bne", label_);
+        out << std::left << std::setw(5) << "bne";
+        out << "$" << std::setw(2) << s_ << ",";
+        out << "$" << std::setw(2) << t_ << ",";
+        out << std::setw(6) << static_cast<short>(i_);
+        if (label_ != "") {
+            out << "[" << label_ << "]";
+        }
+        out << std::right;
+        return out;
     }
 
     void resolve_symbol(size_t self) override {
