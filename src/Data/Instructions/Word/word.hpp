@@ -16,7 +16,7 @@ class word : public Instruction_base {
     word &operator=(word const &rhs) = default;
     word &operator=(word &&rhs) = default;
 
-    int to_binary() override { return word_; }
+    int to_binary(bool warn) override { return word_; }
 
     void exec(Machine &machine) override {
         std::cout << "Warning : Executing word instruction!";

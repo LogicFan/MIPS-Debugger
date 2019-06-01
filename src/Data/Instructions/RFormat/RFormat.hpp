@@ -27,9 +27,12 @@ class RFormat : public Instruction_base {
     RFormat &operator=(RFormat const &rhs) = default;
     RFormat &operator=(RFormat &&rhs) = default;
 
-    int to_binary() override {
-        std::cout << "Warning: Arithmetic operation on non-word instruction!"
-                  << std::endl;
+    int to_binary(bool warn) override {
+        if (warn) {
+            std::cout
+                << "Warning: Arithmetic operation on non-word instruction!"
+                << std::endl;
+        }
         return func_ | (d_ << 11) | (t_ << 16) | (s_ << 21);
     }
 

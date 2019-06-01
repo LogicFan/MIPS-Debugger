@@ -27,7 +27,7 @@ struct Instruction_base : public Data_base {
         return;
     }
 
-    virtual int to_binary() = 0;
+    virtual int to_binary(bool warn = true) = 0;
     virtual void exec(Machine &machine) = 0;
 
     static Instruction parse(int binary);

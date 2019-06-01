@@ -92,7 +92,7 @@ RESUME:
 void word_info(Instruction_base *reg) {
     if (reg) {
         std::cout << std::bitset<32>{
-            static_cast<unsigned int>(reg->to_binary())};
+            static_cast<unsigned int>(reg->to_binary(false))};
         std::cout << "  from: ";
         word *w = dynamic_cast<word *>(reg);
         if (w && w->from_ > 0) {

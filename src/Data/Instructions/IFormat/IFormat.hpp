@@ -13,7 +13,8 @@ class IFormat : public Instruction_base {
     unsigned int i_;
 
   public:
-    IFormat(unsigned int o, unsigned int s, unsigned int t, unsigned int i) : o_{o}, s_{s}, t_{t}, i_{i} {
+    IFormat(unsigned int o, unsigned int s, unsigned int t, unsigned int i)
+        : o_{o}, s_{s}, t_{t}, i_{i} {
         assert(o_ < 64);
         assert(s_ < 32);
         assert(t_ < 32);
@@ -26,9 +27,12 @@ class IFormat : public Instruction_base {
     IFormat &operator=(IFormat const &rhs) = default;
     IFormat &operator=(IFormat &&rhs) = default;
 
-    int to_binary() override {
-        std::cout << "Warning: Arithmetic operation on non-word instruction!"
-                  << std::endl;
+    int to_binary(bool warn) override {
+        if (warn) {
+            std::cout
+                << "Warning: Arithmetic operation on non-word instruction!"
+                << std::endl;
+        }
         return i_ | (t_ << 16) | (s_ << 21) | (o_ << 26);
     }
 
