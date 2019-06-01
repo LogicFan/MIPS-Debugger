@@ -25,9 +25,19 @@ class LW : public IFormat {
 };
 
 inline void LW::exec(Machine &machine) {
+    machine.add_undo([](){});
+
     int reg_s_ = machine.get_reg(s_);
     int offset = static_cast<short>(i_);
     int value = machine.get_mem(reg_s_ + offset);
+
+    machine.undo_stack_.pop();
+    std::function<void()> undo =
+        [&machine = machine, t = t_,
+         t_val = machine.register_[t_]->clone_inst().release()]() {
+            machine.register_[t] = Instruction{t_val};
+        };
+    machine.add_undo(undo);
 
     machine.set_reg(t_, value);
 }

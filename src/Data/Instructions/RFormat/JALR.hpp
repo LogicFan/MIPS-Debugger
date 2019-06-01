@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class JALR : public RFormat {
   public:
@@ -24,10 +24,21 @@ class JALR : public RFormat {
 };
 
 inline void JALR::exec(Machine &machine) {
+    machine.add_undo([]() {});
+
     int reg_s_ = machine.get_reg(s_);
     int pc = machine.get_pc();
 
+    machine.undo_stack_.pop();
+    std::function<void()> undo =
+        [&machine = machine, s = s_,
+         s_val = machine.register_[s_]->clone_inst().release(),
+         pc = machine.program_counter_->clone_inst().release()]() {
+            machine.register_[s] = Instruction{s_val};
+            machine.program_counter_ = Instruction{pc};
+        };
+    machine.add_undo(undo);
+
     machine.set_pc(reg_s_);
-    
     machine.set_reg(31, pc);
 }

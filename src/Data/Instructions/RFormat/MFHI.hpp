@@ -24,6 +24,17 @@ class MFHI : public RFormat {
 };
 
 inline void MFHI::exec(Machine &machine) {
+    machine.add_undo([](){});
+
     int high = machine.get_high();
+
+    machine.undo_stack_.pop();
+    std::function<void()> undo =
+        [&machine = machine, d = d_,
+         d_val = machine.register_[d_]->clone_inst().release()]() {
+            machine.register_[d] = Instruction{d_val};
+        };
+    machine.add_undo(undo);
+
     machine.set_reg(d_, high);
 }
