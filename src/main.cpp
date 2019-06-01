@@ -12,7 +12,7 @@ void word_info(Instruction_base *reg);
 
 int main(int argc, char *argv[]) {
     if (argc == 1) {
-        std::cout << "Version 0.1 (Beta)" << std::endl;
+        std::cout << "Version 0.3 (Beta)" << std::endl;
         return 0;
     }
 
