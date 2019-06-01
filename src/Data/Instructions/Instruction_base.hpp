@@ -3,6 +3,11 @@
 #include "../Data_base.hpp"
 #include <iomanip>
 
+inline bool is_small_endian() {
+    unsigned long i = 1;
+    return reinterpret_cast<int *>(&i)[0];
+}
+
 struct Instruction_base : public Data_base {
   protected:
     int file_line_;
