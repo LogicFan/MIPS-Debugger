@@ -47,7 +47,7 @@ struct Machine final {
     void exec(Instruction const &inst);
 
     void pervious();
-    bool next(bool resume = false);
+    bool next(bool resume = false, bool print = true);
     bool roll_back(size_t counter_id);
 
     friend void machine_test();

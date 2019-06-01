@@ -149,7 +149,7 @@ void Machine::pervious() {
     }
 }
 
-bool Machine::next(bool resume) {
+bool Machine::next(bool resume, bool print) {
     int pc = get_pc();
 
     if (pc == -1) {
@@ -167,20 +167,23 @@ bool Machine::next(bool resume) {
         return false;
     }
 
-    std::cout << "[" << std::setw(20) << std::setfill('0') << counter_ << "] ";
-    std::cout << std::setfill(' ');
-    std::cout << next_inst;
-    if (dynamic_cast<LIS *>(next_inst.get())) {
-        // This is a lis instruction
-        Instruction &literel = memory_[pc + 4];
-        if (!literel) {
-            throw std::runtime_error{
-                "Error: Accessing non-initialized memory!"};
+    if (print) {
+        std::cout << "[" << std::setw(20) << std::setfill('0') << counter_
+                  << "] ";
+        std::cout << std::setfill(' ');
+        std::cout << next_inst;
+        if (dynamic_cast<LIS *>(next_inst.get())) {
+            // This is a lis instruction
+            Instruction &literel = memory_[pc + 4];
+            if (!literel) {
+                throw std::runtime_error{
+                    "Error: Accessing non-initialized memory!"};
+            }
+            std::cout << "[" << literel << "]";
         }
-        std::cout << "[" << literel << "]";
-    }
 
-    std::cout << std::endl;
+        std::cout << std::endl;
+    }
 
     std::function<void()> undo = [machine_src = *this,
                                   &machine_targ = *this]() {
@@ -249,6 +252,6 @@ bool Machine::roll_back(size_t counter_id) {
     }
 
     std::cout << "Back to ";
-    next();
+    next(true);
     return true;
 }
