@@ -29,6 +29,7 @@ class word : public Instruction_base {
 
     std::ostream &print(std::ostream &out) override {
         out << ".word " << std::hex << word_;
+        std::cout << std::dec;
     }
 
     friend int main(int argc, char *argv[]);

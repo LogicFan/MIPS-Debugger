@@ -39,7 +39,7 @@ class RFormat : public Instruction_base {
         if (d == -1) {
             out << "   ";
         } else {
-            out << std::left << "$" << std::setw(2) << std::dec << d;
+            out << "$" << std::setw(2) << d;
         }
 
         if (d == -1 || s == -1) {
@@ -51,7 +51,7 @@ class RFormat : public Instruction_base {
         if (s == -1) {
             out << "   ";
         } else {
-            out << std::left << "$" << std::setw(2) << std::dec << s;
+            out << "$" << std::setw(2) << s;
         }
 
         if (s == -1 || t == -1) {
@@ -63,8 +63,10 @@ class RFormat : public Instruction_base {
         if (t == -1) {
             out << "   ";
         } else {
-            out << std::left << "$" << std::setw(2) << std::dec << t;
+            out << "$" << std::setw(2) << t;
         }
+
+        std::cout << std::right;
 
         return out;
     }

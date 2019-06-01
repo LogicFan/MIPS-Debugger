@@ -58,8 +58,8 @@ inline std::ostream &operator<<(std::ostream &out, Machine const &machine) {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 4; ++j) {
             if (i * 4 + j < 32) {
-                std::cout << "$" << std::left << std::setw(2)
-                          << std::setfill(' ') << i * 4 + j << ": ";
+                std::cout << "$" << std::left << std::setw(2) << i * 4 + j
+                          << ": ";
                 try {
                     std::cout << std::bitset<32>{
                         static_cast<unsigned int>(machine.get_reg(i * 4 + j))};
@@ -71,6 +71,8 @@ inline std::ostream &operator<<(std::ostream &out, Machine const &machine) {
         }
         std::cout << std::endl;
     }
+
+    std::cout << std::right;
 
     std::cout << "$hi: ";
     try {
@@ -99,21 +101,6 @@ inline std::ostream &operator<<(std::ostream &out, Machine const &machine) {
     }
     std::cout << std::endl;
 }
-
-// Done [Error: Accessing invalid register!] machine
-// Done [Error: Accessing non-initialized memory!] machine
-// Done [Error: Accessing non-aligned memory address!] machine
-// Done [Error: Accessing non-initialized register!] machine
-// Done [Error: Executing invalid instruction!] Instruction_base::parse
-
-// Done [Warning: Modifying register 0!]
-// Done [Warning: Jumping to non-label address!] machine
-// Done [Warning: Jumping to non-code area!] machine
-// Done [Warning : Executing word instruction!] word
-// Done [Warning: Arithmetic operation on non-word instruction!] IFormat,
-// RFormat Done [Warning: Modifying code area!] machine
-
-// [Error: Dividing zero!] div, divu
 
 // Break point
 // Trace back data

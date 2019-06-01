@@ -166,8 +166,10 @@ bool Machine::next(bool resume) {
         return false;
     }
 
-    std::cout << "[" << std::right << std::hex << std::setw(20)
-              << std::setfill('0') << counter_ << "] " << std::setfill(' ');
+    std::cout << "[" << std::hex << std::setw(20)
+              << std::setfill('0') << counter_ << "] ";
+    std::cout << std::dec;
+    std::cout << std::setfill(' ');
     std::cout << next_inst << std::endl;
 
     std::function<void()> undo = [machine_src = *this, &machine_targ = *this]() {
