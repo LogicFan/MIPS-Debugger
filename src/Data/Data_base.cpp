@@ -85,7 +85,7 @@ Data Data_base::parse(std::string const &text) {
             ss >> t;
             ss.ignore(std::numeric_limits<std::streamsize>::max(), ',');
             ss >> i;
-            ss.ignore(std::numeric_limits<std::streamsize>::max(), '(');
+            ss.ignore(std::numeric_limits<std::streamsize>::max(), '$');
             ss >> s;
             return std::make_unique<LW>(s, t, static_cast<unsigned short>(i));
         } else if (inst == "sw") {
@@ -95,7 +95,7 @@ Data Data_base::parse(std::string const &text) {
             ss >> t;
             ss.ignore(std::numeric_limits<std::streamsize>::max(), ',');
             ss >> i;
-            ss.ignore(std::numeric_limits<std::streamsize>::max(), '(');
+            ss.ignore(std::numeric_limits<std::streamsize>::max(), '$');
             ss >> s;
             return std::make_unique<SW>(s, t, static_cast<unsigned short>(i));
         } else if (inst == "slt") {
