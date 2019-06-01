@@ -1,4 +1,5 @@
 #include "Machine.hpp"
+#include "./Data/Instructions/RFormat/LIS.hpp"
 #include "./Data/Instructions/Word/word.hpp"
 #include <set>
 
@@ -142,7 +143,7 @@ void Machine::pervious() {
 
         undo_stack_.top()();
         undo_stack_.pop();
-        
+
     } else {
         std::cout << "Error: There is no pervious steps!" << std::endl;
     }
@@ -161,17 +162,28 @@ bool Machine::next(bool resume) {
         throw std::runtime_error{"Error: Accessing non-initialized memory!"};
     }
 
-    if(next_inst->break_ && !resume) {
+    if (next_inst->break_ && !resume) {
         // This is a break point
         return false;
     }
 
-    std::cout << "[" << std::setw(20)
-              << std::setfill('0') << counter_ << "] ";
+    std::cout << "[" << std::setw(20) << std::setfill('0') << counter_ << "] ";
     std::cout << std::setfill(' ');
-    std::cout << next_inst << std::endl;
+    std::cout << next_inst;
+    if (dynamic_cast<LIS *>(next_inst.get())) {
+        // This is a lis instruction
+        Instruction &literel = memory_[pc + 4];
+        if (!literel) {
+            throw std::runtime_error{
+                "Error: Accessing non-initialized memory!"};
+        }
+        std::cout << "[" << literel << "]";
+    }
 
-    std::function<void()> undo = [machine_src = *this, &machine_targ = *this]() {
+    std::cout << std::endl;
+
+    std::function<void()> undo = [machine_src = *this,
+                                  &machine_targ = *this]() {
         machine_targ = machine_src;
     };
 
@@ -220,4 +232,3 @@ Machine &Machine::operator=(Machine const &rhs) {
     new (this) Machine{rhs};
     return *this;
 }
-
