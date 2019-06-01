@@ -14,9 +14,16 @@ Data Data_base::parse(std::string const &text) {
         std::string inst;
         ss >> inst;
         if (inst == ".word") {
-            int literal;
+            std::string literal;
             ss >> literal;
-            return std::make_unique<word>(literal, 0);
+            if (('0' <= literal[0] && literal[0] <= '9') || literal[0] == '-') {
+                short i;
+                std::stringstream parse_int{literal};
+                parse_int >> i;
+                return std::make_unique<word>(i, 0);
+            } else {
+                return std::make_unique<word>(literal);
+            }
         } else if (inst == "add") {
             unsigned int d, s, t;
             ss.ignore(std::numeric_limits<std::streamsize>::max(), '$');
