@@ -24,7 +24,6 @@ class BNE : public IFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<BNE>(*this); }
-    Instruction clone_inst() override {return std::make_unique<BNE>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return IFormat::print(out, "bne", label_);

@@ -18,7 +18,6 @@ class ADD : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<ADD>(*this); }
-    Instruction clone_inst() override {return std::make_unique<ADD>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "add", d_, s_, t_);

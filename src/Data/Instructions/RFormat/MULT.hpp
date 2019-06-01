@@ -17,7 +17,6 @@ class MULT : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<MULT>(*this); }
-    Instruction clone_inst() override {return std::make_unique<MULT>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "mult", -1, s_, t_);

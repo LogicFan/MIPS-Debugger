@@ -17,7 +17,6 @@ class LIS : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<LIS>(*this); }
-    Instruction clone_inst() override {return std::make_unique<LIS>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "lis", d_, -1, -1);

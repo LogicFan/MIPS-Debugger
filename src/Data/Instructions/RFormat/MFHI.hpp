@@ -17,7 +17,6 @@ class MFHI : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<MFHI>(*this); }
-    Instruction clone_inst() override {return std::make_unique<MFHI>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "mfhi", d_, -1, -1);

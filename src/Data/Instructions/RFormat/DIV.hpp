@@ -17,7 +17,6 @@ class DIV : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<DIV>(*this); }
-    Instruction clone_inst() override {return std::make_unique<DIV>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "div", -1, s_, t_);

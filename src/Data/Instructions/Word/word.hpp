@@ -25,7 +25,6 @@ class word : public Instruction_base {
     }
 
     Data clone() override { return std::make_unique<word>(*this); }
-    Instruction clone_inst() override {return std::make_unique<word>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         out << ".word " << std::hex << word_;

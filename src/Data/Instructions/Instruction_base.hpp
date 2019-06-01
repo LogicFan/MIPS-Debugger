@@ -32,7 +32,10 @@ struct Instruction_base : public Data_base {
 
     static Instruction parse(int binary);
 
-    virtual Instruction clone_inst() = 0;
+    Instruction clone_inst() {
+        return std::unique_ptr<Instruction_base>{
+            dynamic_cast<Instruction_base *>(this->clone().release())};
+    }
 };
 
 inline std::ostream &operator<<(std::ostream &out, Instruction const &inst) {

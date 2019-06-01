@@ -17,7 +17,6 @@ class MFLO : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<MFLO>(*this); }
-    Instruction clone_inst() override {return std::make_unique<MFLO>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "mflo", d_, -1, -1);
