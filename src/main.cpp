@@ -8,6 +8,8 @@
 #include <fstream>
 #include <iostream>
 
+void word_info(Instruction_base *reg);
+
 int main(int argc, char *argv[]) {
     if (argc == 1) {
         std::cout << "Version 0.1 (Beta)" << std::endl;
@@ -24,8 +26,9 @@ RESUME:
     while (machine.next()) {
     };
 
+    std::cout << machine << std::endl;
+
     while (true) {
-        std::cout << machine << std::endl;
 
         std::string str;
         std::cin >> str;
@@ -34,29 +37,76 @@ RESUME:
             return 0;
         } else if (str == "next") {
             machine.next(true);
+            std::cout << machine << std::endl;
         } else if (str == "previous") {
             machine.pervious();
+            std::cout << machine << std::endl;
         } else if (str == "resume") {
             machine.next(true);
             goto RESUME;
-        } else if (str == "regfrom") {
-            size_t reg;
+        } else if (str == "register") {
+            std::string reg;
             std::cin >> reg;
-            if (dynamic_cast<word *>(machine.register_[reg].get())) {
-                int from =
-                    dynamic_cast<word *>(machine.register_[reg].get())->from_;
-                if (from != 0) {
-                    std::cout << "This register is from " << std::right
-                              << std::setw(20) << std::setfill('0') << from
-                              << std::setfill(' ') << std::left << std::endl;
-                } else {
-                    std::cout << "This register is from nowhere" << std::endl;
-                }
+            if (reg == "pc") {
+                std::cout << "$pc: ";
+                word_info(machine.program_counter_.get());
+            } else if (reg == "hi") {
+                std::cout << "$hi: ";
+                word_info(machine.high_.get());
+            } else if (reg == "lo") {
+                std::cout << "$lo: ";
+                word_info(machine.low_.get());
             } else {
-                std::cout << "This register is from nowhere" << std::endl;
+                std::stringstream ss{reg};
+                int reg_i;
+                ss >> reg_i;
+                std::cout << "$";
+                std::cout << std::setw(2) << std::left << reg_i;
+                std::cout << std::right;
+                std::cout << ": ";
+                word_info(machine.register_[reg_i].get());
             }
+        } else if (str == "memory") {
+            size_t mem;
+            std::cin >> mem;
+            if (mem % 4 == 0) {
+                std::cout << "0x" << std::setw(8) << std::hex
+                          << std::setfill('0') << mem;
+                std::cout << std::dec;
+                std::cout << std::setfill(' ');
+
+                std::cout << ": ";
+                word_info(machine.memory_[mem].get());
+            } else {
+                std::cout << "Error: Accessing non-aligned memory address!"
+                          << std::endl;
+            }
+        } else if (str == "rollback") {
+            std::cout << machine << std::endl;
         }
     }
 
     return 0;
+}
+
+void word_info(Instruction_base *reg) {
+    if (reg) {
+        std::cout << std::bitset<32>{
+            static_cast<unsigned int>(reg->to_binary())};
+        std::cout << "  from: ";
+        word *w = dynamic_cast<word *>(reg);
+        if (w && w->from_ > 0) {
+            std::cout << "[" << std::hex << std::setw(20) << std::setfill('0')
+                      << w->from_ << "] ";
+            std::cout << std::dec;
+            std::cout << std::setfill(' ');
+        } else {
+            std::cout << "nowhere";
+        }
+    } else {
+        std::cout << "null                            ";
+        std::cout << "  from: nowhere";
+    }
+
+    std::cout << std::endl;
 }

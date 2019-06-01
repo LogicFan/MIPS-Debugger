@@ -28,9 +28,10 @@ class word : public Instruction_base {
     Instruction clone_inst() override { return std::make_unique<word>(*this); }
 
     std::ostream &print(std::ostream &out) override {
-        out << ".word " << std::hex << word_;
+        out << ".word " << "0x" << std::setw(8) << std::hex << std::setfill('0') << word_;
         std::cout << std::dec;
+        std::cout << std::setfill(' ');
     }
 
-    friend int main(int argc, char *argv[]);
+    friend void word_info(Instruction_base *reg);
 };

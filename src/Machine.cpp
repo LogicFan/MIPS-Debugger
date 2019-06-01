@@ -166,9 +166,8 @@ bool Machine::next(bool resume) {
         return false;
     }
 
-    std::cout << "[" << std::hex << std::setw(20)
+    std::cout << "[" << std::setw(20)
               << std::setfill('0') << counter_ << "] ";
-    std::cout << std::dec;
     std::cout << std::setfill(' ');
     std::cout << next_inst << std::endl;
 
