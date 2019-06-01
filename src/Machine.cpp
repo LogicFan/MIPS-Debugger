@@ -4,6 +4,11 @@
 
 extern std::set<size_t> labeled_address;
 
+bool Machine::break_ = false;
+unsigned long Machine::counter_ = 1;
+size_t Machine::code_area_ = 0;
+std::stack<std::function<void()>> Machine::undo_stack_;
+
 Machine::Machine() {
     // $0 is hardware 0
     register_[0] = std::make_unique<word>(0, 0);
@@ -14,12 +19,6 @@ Machine::Machine() {
 
     // set pc = 0
     program_counter_ = std::make_unique<word>(0, 0);
-
-    break_ = false;
-
-    // set counter begin from 1
-    counter_ = 1; // setw(5) << setfill('0')
-    code_area_ = 0;
 }
 
 void Machine::set_reg(size_t reg, int value, bool warn) {
@@ -37,7 +36,7 @@ void Machine::set_reg(size_t reg, int value, bool warn) {
     register_[reg] = std::make_unique<word>(value, counter_);
 }
 
-int Machine::get_reg(size_t reg, bool warn) {
+int Machine::get_reg(size_t reg, bool warn) const {
     if (reg >= 32) {
         throw std::runtime_error{"Error: Accessing invalid register!"};
     } else if (!register_[reg]) {
@@ -60,7 +59,7 @@ void Machine::set_mem(size_t mem, int value, bool warn) {
     memory_[mem] = std::make_unique<word>(value, counter_);
 }
 
-int Machine::get_mem(size_t mem, bool warn) {
+int Machine::get_mem(size_t mem, bool warn) const {
     if (mem % 4 != 0) {
         throw std::runtime_error{
             "Error: Accessing non-aligned memory address!"};
@@ -75,7 +74,7 @@ void Machine::set_high(int value, bool warn) {
     high_ = std::make_unique<word>(value, counter_);
 }
 
-int Machine::get_high(bool warn) {
+int Machine::get_high(bool warn) const {
     if (!high_) {
         throw std::runtime_error{"Error: Accessing non-initialized register!"};
     }
@@ -87,7 +86,7 @@ void Machine::set_low(int value, bool warn) {
     low_ = std::make_unique<word>(value, counter_);
 }
 
-int Machine::get_low(bool warn) {
+int Machine::get_low(bool warn) const {
     if (!low_) {
         throw std::runtime_error{"Error: Accessing non-initialized register!"};
     }
@@ -107,7 +106,7 @@ void Machine::set_pc(int value, bool warn) {
     }
 }
 
-int Machine::get_pc(bool warn) {
+int Machine::get_pc(bool warn) const {
     if (!program_counter_) {
         throw std::runtime_error{"Error: Accessing non-initialized register!"};
     }
@@ -140,18 +139,20 @@ void Machine::exec(Instruction const &inst) {
 void Machine::pervious() {
     if (counter_ > 1) {
         --counter_;
+
         undo_stack_.top()();
         undo_stack_.pop();
-        set_pc(get_pc() - 4);
+        
     } else {
         std::cout << "Error: There is no pervious steps!" << std::endl;
     }
 }
 
-bool Machine::next() {
+bool Machine::next(bool resume) {
     int pc = get_pc();
 
     if (pc == -1) {
+        // MIPS program terminated
         return false;
     }
 
@@ -160,9 +161,20 @@ bool Machine::next() {
         throw std::runtime_error{"Error: Accessing non-initialized memory!"};
     }
 
+    if(next_inst->break_ && !resume) {
+        // This is a break point
+        return false;
+    }
+
     std::cout << "[" << std::right << std::hex << std::setw(20)
               << std::setfill('0') << counter_ << "] " << std::setfill(' ');
     std::cout << next_inst << std::endl;
+
+    std::function<void()> undo = [machine_src = *this, &machine_targ = *this]() {
+        machine_targ = machine_src;
+    };
+
+    add_undo(undo);
 
     try {
         exec(next_inst);
@@ -192,7 +204,7 @@ Machine::Machine(Machine const &rhs) {
     }
 
     if (rhs.program_counter_) {
-        this->high_ = rhs.program_counter_->clone_inst();
+        this->program_counter_ = rhs.program_counter_->clone_inst();
     }
 
     for (auto const &inst : rhs.memory_) {
@@ -207,3 +219,4 @@ Machine &Machine::operator=(Machine const &rhs) {
     new (this) Machine{rhs};
     return *this;
 }
+
