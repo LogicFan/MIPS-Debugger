@@ -18,6 +18,7 @@ class LW : public IFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<LW>(*this); }
+    Instruction clone_inst() override {return std::make_unique<LW>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return IFormat::print(out, "lw");

@@ -17,6 +17,7 @@ class JR : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<JR>(*this); }
+    Instruction clone_inst() override {return std::make_unique<JR>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "jr", -1, s_, -1);

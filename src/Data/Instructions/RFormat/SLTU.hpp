@@ -17,6 +17,7 @@ class SLTU : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<SLTU>(*this); }
+    Instruction clone_inst() override {return std::make_unique<SLTU>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "sltu", d_, s_, t_);

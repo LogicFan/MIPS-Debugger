@@ -17,6 +17,7 @@ class MULTU : public RFormat {
     void exec(Machine &machine) override;
 
     Data clone() override { return std::make_unique<MULTU>(*this); }
+    Instruction clone_inst() override {return std::make_unique<MULTU>(*this); }
 
     std::ostream &print(std::ostream &out) override {
         return RFormat::print(out, "multu", -1, s_, t_);
