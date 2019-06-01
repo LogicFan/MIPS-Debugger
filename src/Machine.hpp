@@ -20,12 +20,10 @@ struct Machine final {
     size_t code_area_;
 
     Machine();
-    Machine(Machine const &rhs) = delete;
-    Machine(Machine &&rhs) = delete;
+    Machine(Machine const &rhs);
     ~Machine() = default;
 
-    Machine &operator=(Machine const &rhs) = delete;
-    Machine &operator=(Machine &&rhs) = delete;
+    Machine &operator=(Machine const &rhs);
 
     void set_reg(size_t reg, int value, bool warn = true);
     int get_reg(size_t reg, bool warn = true);

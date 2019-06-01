@@ -138,13 +138,13 @@ void Machine::exec(Instruction const &inst) {
 }
 
 void Machine::pervious() {
-    if(counter_ > 1) {
+    if (counter_ > 1) {
         --counter_;
         undo_stack_.top()();
         undo_stack_.pop();
         set_pc(get_pc() - 4);
     } else {
-        std::cout << "Error: There is no pervious steps!" << std::endl; 
+        std::cout << "Error: There is no pervious steps!" << std::endl;
     }
 }
 
@@ -174,4 +174,36 @@ bool Machine::next() {
     }
 
     return true;
+}
+
+Machine::Machine(Machine const &rhs) {
+    for (int i = 0; i < 32; ++i) {
+        if (rhs.register_[i]) {
+            this->register_[i] = rhs.register_[i]->clone_inst();
+        }
+    }
+
+    if (rhs.high_) {
+        this->high_ = rhs.high_->clone_inst();
+    }
+
+    if (rhs.low_) {
+        this->low_ = rhs.low_->clone_inst();
+    }
+
+    if (rhs.program_counter_) {
+        this->high_ = rhs.program_counter_->clone_inst();
+    }
+
+    for (auto const &inst : rhs.memory_) {
+        if (inst.second) {
+            this->memory_[inst.first] = inst.second->clone_inst();
+        }
+    }
+}
+
+Machine &Machine::operator=(Machine const &rhs) {
+    this->~Machine();
+    new (this) Machine{rhs};
+    return *this;
 }
