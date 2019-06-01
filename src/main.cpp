@@ -23,8 +23,13 @@ int main(int argc, char *argv[]) {
     machine.load(std::move(program));
 
 RESUME:
-    while (machine.next()) {
-    };
+
+    try {
+        while (machine.next()) {
+        };
+    } catch (std::runtime_error const &e) {
+        std::cout << e.what() << std::endl;
+    }
 
     std::cout << machine << std::endl;
 
@@ -36,14 +41,23 @@ RESUME:
         if (str == "exit") {
             return 0;
         } else if (str == "next") {
-            machine.next(true);
+            try {
+                machine.next(true);
+            } catch (std::runtime_error const &e) {
+                std::cout << e.what() << std::endl;
+            }
             std::cout << machine << std::endl;
         } else if (str == "previous") {
             machine.pervious();
             std::cout << machine << std::endl;
         } else if (str == "resume") {
-            machine.next(true);
-            goto RESUME;
+            try {
+                machine.next(true);
+                goto RESUME;
+            } catch (std::runtime_error const &e) {
+                std::cout << e.what() << std::endl;
+                std::cout << machine << std::endl;
+            }
         } else if (str == "register") {
             std::string reg;
             std::cin >> reg;
