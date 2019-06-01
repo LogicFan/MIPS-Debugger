@@ -1,12 +1,13 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class SLT : public RFormat {
   public:
-    SLT(unsigned int d, unsigned int s, unsigned int t) : RFormat{s, t, d, 0b101010} {}
+    SLT(unsigned int d, unsigned int s, unsigned int t)
+        : RFormat{s, t, d, 0b101010} {}
     SLT(SLT const &rhs) = default;
     SLT(SLT &&rhs) = default;
     ~SLT() = default;
@@ -27,7 +28,7 @@ inline void SLT::exec(Machine &machine) {
     int reg_s_ = machine.get_reg(s_);
     int reg_t_ = machine.get_reg(t_);
 
-    if(reg_s_ < reg_t_) {
+    if (reg_s_ < reg_t_) {
         machine.set_reg(d_, 1);
     } else {
         machine.set_reg(d_, 0);

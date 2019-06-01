@@ -28,6 +28,7 @@ inline void MULTU::exec(Machine &machine) {
     unsigned int reg_t_ = static_cast<unsigned int>(machine.get_reg(t_));
     unsigned long temp =
         static_cast<unsigned long>(reg_s_) * static_cast<unsigned long>(reg_t_);
+
     machine.set_high(reinterpret_cast<int *>(&temp)[0]);
     machine.set_low(reinterpret_cast<int *>(&temp)[1]);
 }

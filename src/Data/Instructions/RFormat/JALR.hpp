@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class JALR : public RFormat {
   public:
@@ -28,6 +28,5 @@ inline void JALR::exec(Machine &machine) {
     int pc = machine.get_pc();
 
     machine.set_pc(reg_s_);
-    
     machine.set_reg(31, pc);
 }

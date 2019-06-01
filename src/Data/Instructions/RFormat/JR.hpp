@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class JR : public RFormat {
   public:

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class MFLO : public RFormat {
   public:
@@ -25,5 +25,6 @@ class MFLO : public RFormat {
 
 inline void MFLO::exec(Machine &machine) {
     int low = machine.get_low();
+
     machine.set_reg(d_, low);
 }

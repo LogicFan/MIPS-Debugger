@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class MFHI : public RFormat {
   public:
@@ -25,5 +25,6 @@ class MFHI : public RFormat {
 
 inline void MFHI::exec(Machine &machine) {
     int high = machine.get_high();
+
     machine.set_reg(d_, high);
 }

@@ -6,7 +6,8 @@
 
 class SLTU : public RFormat {
   public:
-    SLTU(unsigned int d, unsigned int s, unsigned int t) : RFormat{s, t, d, 0b101011} {}
+    SLTU(unsigned int d, unsigned int s, unsigned int t)
+        : RFormat{s, t, d, 0b101011} {}
     SLTU(SLTU const &rhs) = default;
     SLTU(SLTU &&rhs) = default;
     ~SLTU() = default;

@@ -1,12 +1,13 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class ADD : public RFormat {
   public:
-    ADD(unsigned int d, unsigned int s, unsigned int t) : RFormat{s, t, d, 0b100000} {}
+    ADD(unsigned int d, unsigned int s, unsigned int t)
+        : RFormat{s, t, d, 0b100000} {}
     ADD(ADD const &rhs) = default;
     ADD(ADD &&rhs) = default;
     ~ADD() = default;
@@ -26,5 +27,6 @@ class ADD : public RFormat {
 inline void ADD::exec(Machine &machine) {
     int reg_s_ = machine.get_reg(s_);
     int reg_t_ = machine.get_reg(t_);
+
     machine.set_reg(d_, reg_s_ + reg_t_);
 }

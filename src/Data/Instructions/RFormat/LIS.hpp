@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class LIS : public RFormat {
   public:
@@ -22,7 +22,6 @@ class LIS : public RFormat {
         return RFormat::print(out, "lis", d_, -1, -1);
     }
 };
-
 
 inline void LIS::exec(Machine &machine) {
     int pc = machine.get_pc();

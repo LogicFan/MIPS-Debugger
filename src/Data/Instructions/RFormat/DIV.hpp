@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RFormat.hpp"
 #include "../../../Machine.hpp"
 #include "../Word/word.hpp"
+#include "RFormat.hpp"
 
 class DIV : public RFormat {
   public:
@@ -26,6 +26,7 @@ class DIV : public RFormat {
 inline void DIV::exec(Machine &machine) {
     int reg_s_ = machine.get_reg(s_);
     int reg_t_ = machine.get_reg(t_);
+
     machine.set_high(reg_s_ % reg_t_);
     machine.set_low(reg_s_ / reg_t_);
 }

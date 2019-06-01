@@ -142,6 +142,7 @@ void Machine::pervious() {
         --counter_;
         undo_stack_.top()();
         undo_stack_.pop();
+        set_pc(get_pc() - 4);
     } else {
         std::cout << "Error: There is no pervious steps!" << std::endl; 
     }
