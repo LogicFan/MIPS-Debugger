@@ -30,8 +30,8 @@ class BNE : public IFormat {
         return IFormat::print(out, "bne", label_);
     }
 
-    void resolve_symbol(size_t self) {
-        if(label_ != "") {
+    void resolve_symbol(size_t self) override {
+        if (label_ != "") {
             // This is initialized by label
             size_t label = symbol_table.at(label_);
             i_ = static_cast<short>((label - self) / 4 - 1);

@@ -34,6 +34,7 @@ struct Instruction_base : public Data_base {
 
     virtual int to_binary(bool warn = true) = 0;
     virtual void exec(Machine &machine) = 0;
+    virtual void resolve_symbol(size_t self) {}
 
     static Instruction parse(int binary);
 

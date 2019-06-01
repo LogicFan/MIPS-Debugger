@@ -1,14 +1,20 @@
 #pragma once
 
 #include "../Instruction_base.hpp"
+#include <map>
+
+extern std::map<std::string, size_t> symbol_table;
 
 class word : public Instruction_base {
   private:
-    const int word_;
+    int word_;
+    std::string label_;
     const unsigned long from_;
 
   public:
     word(int word, unsigned long from) : word_{word}, from_{from} {}
+    word(std::string &label) : label_{label}, from_{0} {}
+
     word(word const &rhs) = default;
     word(word &&rhs) = default;
     ~word() = default;
@@ -28,10 +34,13 @@ class word : public Instruction_base {
     Instruction clone_inst() override { return std::make_unique<word>(*this); }
 
     std::ostream &print(std::ostream &out) override {
-        out << ".word " << "0x" << std::setw(8) << std::hex << std::setfill('0') << word_;
+        out << ".word "
+            << "0x" << std::setw(8) << std::hex << std::setfill('0') << word_;
         std::cout << std::dec;
         std::cout << std::setfill(' ');
     }
+
+    void resolve_symbol(size_t self) override { word_ = symbol_table[label_]; }
 
     friend void word_info(Instruction_base *reg);
 };

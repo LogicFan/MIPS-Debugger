@@ -56,11 +56,7 @@ std::vector<Instruction> parse(std::istream &in) {
 
     code_line = 0;
     for (auto &inst : instructions) {
-        if (dynamic_cast<BEQ *>(inst.get())) {
-            dynamic_cast<BEQ *>(inst.get())->resolve_symbol(code_line);
-        } else if (dynamic_cast<BNE *>(inst.get())) {
-            dynamic_cast<BNE *>(inst.get())->resolve_symbol(code_line);
-        }
+        inst->resolve_symbol(code_line);
         code_line += 4;
     }
 

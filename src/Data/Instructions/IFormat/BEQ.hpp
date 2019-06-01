@@ -30,7 +30,7 @@ class BEQ : public IFormat {
         return IFormat::print(out, "beq", label_);
     }
 
-    void resolve_symbol(size_t self) {
+    void resolve_symbol(size_t self) override {
         if (label_ != "") {
             // This is initialized by label
             size_t label = symbol_table.at(label_);
