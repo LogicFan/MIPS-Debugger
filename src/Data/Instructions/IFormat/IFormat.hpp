@@ -51,7 +51,7 @@ class IFormat : public Instruction_base {
         } else {
             std::cout << "$" << std::setw(2) << t_ << ",";
             std::cout << std::setw(6) << static_cast<short>(i_) << "(";
-            std::cout << "$" << std::setw(2) << t_ << ")";
+            std::cout << "$" << std::setw(2) << s_ << ")";
         }
 
         std::cout << std::right;
