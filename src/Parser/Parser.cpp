@@ -35,6 +35,7 @@ Instruction scan(std::string line) {
     Instruction inst;
 
     bool break_temp = break_point;
+    break_point = false;
 
     // omit space
     size_t s = 0;
@@ -314,7 +315,7 @@ std::vector<Instruction> parse(std::istream &in) {
     while (getline(in, text)) {
         Instruction inst = scan(text);
         if(inst) {
-            instructions.push_back(inst);
+            instructions.push_back(std::move(inst));
         }
     }
 
@@ -326,3 +327,5 @@ std::vector<Instruction> parse(std::istream &in) {
 
     return std::move(instructions);
 }
+
+// no symbol exception:
