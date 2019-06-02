@@ -72,7 +72,11 @@ int main(int argc, char *argv[]) {
 
 void binary(std::vector<Instruction> program) {
     for (auto const &inst : program) {
-        std::cout << inst->to_binary(false);
+        unsigned int bin = inst->to_binary(false);
+        std::cout << static_cast<char>(bin >> 24);
+        std::cout << static_cast<char>(bin >> 16);
+        std::cout << static_cast<char>(bin >> 8);
+        std::cout << static_cast<char>(bin >> 0);
     }
 }
 
