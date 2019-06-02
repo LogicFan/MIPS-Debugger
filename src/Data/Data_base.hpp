@@ -23,8 +23,6 @@ class Data_base {
     virtual Data clone() = 0;
 
     virtual std::ostream &print(std::ostream &out) = 0;
-
-    static Data parse(std::string const &text);
 };
 
 inline std::ostream &operator<<(std::ostream &out, Data const &data) {
