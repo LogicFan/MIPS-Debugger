@@ -20,7 +20,7 @@ extern std::map<std::string, size_t> symbol_table;
 
 int main(int argc, char *argv[]) {
     if (argc == 1) {
-        std::cout << "Version 0.3 (Beta)" << std::endl;
+        std::cout << "Version 1.0" << std::endl;
         return 0;
     }
 
