@@ -46,7 +46,7 @@ class word : public Instruction_base {
 
     void resolve_symbol(size_t self) override {
         if (label_ != "") {
-            word_ = symbol_table[label_];
+            word_ = symbol_table.at(label_);
         }
     }
     friend void word_info(Instruction_base *reg);
