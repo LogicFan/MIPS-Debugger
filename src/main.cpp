@@ -9,6 +9,14 @@
 #include <iostream>
 
 void word_info(Instruction_base *reg);
+void run(Machine &machine);
+void run(std::vector<Instruction> program);
+void run(std::vector<Instruction> program, std::vector<int> const &array);
+void run(std::vector<Instruction> program, int reg1, int reg2);
+void symbol();
+void binary(std::vector<Instruction> program);
+
+extern std::map<std::string, size_t> symbol_table;
 
 int main(int argc, char *argv[]) {
     if (argc == 1) {
@@ -19,9 +27,89 @@ int main(int argc, char *argv[]) {
     std::ifstream code_file{argv[1]};
     std::vector<Instruction> program = parse(code_file);
 
+    if (argc == 2) {
+        // be default, it is -run
+        run(std::move(program));
+    } else {
+        std::string option{argv[2]};
+        if (option == "-run") {
+            run(std::move(program));
+        } else if (option == "-number") {
+            int reg1, reg2;
+
+            std::cout << "Please input register 1 value:";
+            std::cin >> reg1;
+            std::cout << "Please input register 2 value:";
+            std::cin >> reg2;
+
+            run(std::move(program), reg1, reg2);
+        } else if (option == "-array") {
+            int size;
+            std::vector<int> array;
+
+            std::cout << "Please input the size of array:";
+            std::cin >> size;
+            for (int i = 0; i < size; ++i) {
+                int num;
+                std::cout << "Please input the " << i
+                          << "-th element of array:";
+                std::cin >> num;
+                array.push_back(num);
+            }
+
+            run(std::move(program), array);
+        } else if (option == "-symbol") {
+            symbol();
+        } else if (option == "-binary") {
+            binary(std::move(program));
+        } else {
+            std::cout << "Unsupported option." << std::endl;
+        }
+    }
+
+    return 0;
+}
+
+void binary(std::vector<Instruction> program) {
+    for (auto const &inst : program) {
+        std::cout << inst->to_binary(false);
+    }
+}
+
+void symbol() {
+    for (auto const &e : symbol_table) {
+        std::cout << std::setw(20) << e.first << ": " << e.second << std::endl;
+    }
+}
+
+void run(std::vector<Instruction> program) {
+    Machine machine;
+    machine.load(std::move(program));
+    run(machine);
+}
+
+void run(std::vector<Instruction> program, std::vector<int> const &array) {
     Machine machine;
     machine.load(std::move(program));
 
+    int A = machine.code_area_ + 1;
+    for (int i = 0; i < array.size(); ++i) {
+        machine.set_mem(A + i, array[i]);
+    }
+    machine.set_reg(1, A);
+    machine.set_reg(2, array.size());
+    run(machine);
+}
+
+void run(std::vector<Instruction> program, int reg1, int reg2) {
+    Machine machine;
+    machine.load(std::move(program));
+    machine.set_reg(1, reg1);
+    machine.set_reg(2, reg2);
+    run(machine);
+}
+
+void run(Machine &machine) {
 RESUME:
 
     try {
@@ -34,12 +122,11 @@ RESUME:
     std::cout << machine << std::endl;
 
     while (true) {
-
         std::string str;
         std::cin >> str;
 
         if (str == "exit") {
-            return 0;
+            exit(0);
         } else if (str == "next") {
             try {
                 machine.next(true);
@@ -103,8 +190,6 @@ RESUME:
             }
         }
     }
-
-    return 0;
 }
 
 void word_info(Instruction_base *reg) {
