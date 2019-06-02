@@ -113,8 +113,8 @@ void run(Machine &machine) {
 RESUME:
 
     try {
-        while (machine.next()) {
-        };
+        while (machine.next())
+            ;
     } catch (std::runtime_error const &e) {
         std::cout << e.what() << std::endl;
     }
