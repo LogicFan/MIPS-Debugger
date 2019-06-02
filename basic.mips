@@ -1,6 +1,29 @@
 lis $1
 .word 1
-; break
 lis $2
 .word 2
-add $3, $2, $1
+label1:add $3, $1, $2;break
+   sub $4, $2, $1
+mult $1, $2
+    label2: multu $1, $2
+            ; comment
+; comment
+div $1, $2
+divu $1, $2
+mfhi $5
+mflo $6
+sw $1, -4($30)
+lw $7, -4($30)
+slt $8, $1, $2
+sltu $9, $1, $2
+beq $0, $0, label3
+label3:       ; comment
+bne $1, $0, label4
+label4:
+lis $10
+.word label1
+lis $11
+.word label5
+jr $11
+label5:
+jalr $31
