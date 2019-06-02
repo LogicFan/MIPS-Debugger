@@ -239,7 +239,7 @@ Machine &Machine::operator=(Machine const &rhs) {
 bool Machine::roll_back(size_t counter_id) {
     if (counter_id == 0 || counter_id >= counter_) {
         std::cout << "Error: Cannot rollback to ";
-        std::cout << "[" << std::hex << std::setw(20) << std::setfill('0')
+        std::cout << "[" << std::setw(20) << std::setfill('0')
                   << counter_id << "] ";
         std::cout << std::dec;
         std::cout << std::setfill(' ');
