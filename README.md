@@ -12,7 +12,7 @@ $ mips-debugger [input file] [option]
 
 > Input file is MIPS assembly code.
 
-> There are 5 options, `-binary` and `-symbol`, `run`, `-array`, `-number`. `-binary` will print the binary code; `-symbol` will print the symbol table; `-run` will directly run the program; `-array` will run the program with an array; `-number` will run the program with two number on register 1 and register 2. If there is no option provided, by default, it is `-run`.
+> There are 5 options, `-binary` and `-symbol`, `-run`, `-array`, `-number`. `-binary` will print the binary code; `-symbol` will print the symbol table; `-run` will directly run the program; `-array` will run the program with an array; `-number` will run the program with two number on register 1 and register 2. If there is no option provided, by default, it is `-run`.
 
 ## Break point
 
