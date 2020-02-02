@@ -34,5 +34,5 @@ inline void SW::exec(Machine &machine) {
     int reg_t_ = machine.get_reg(t_);
     int offset = static_cast<short>(i_);
     
-    machine.set_mem(reg_s_ + offset, t_);
+    machine.set_mem(reg_s_ + offset, reg_t_);
 }
