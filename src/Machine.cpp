@@ -20,6 +20,12 @@ Machine::Machine() {
 
     // set pc = 0
     program_counter_ = std::make_unique<word>(0, 0);
+
+    for (size_t i = 1 ; i < 30; i++) {
+        set_reg(i, 0, false);
+    }
+    set_high(0, false);
+    set_low(0, false);
 }
 
 void Machine::set_reg(size_t reg, int value, bool warn) {

@@ -96,9 +96,9 @@ void run(std::vector<Instruction> program, std::vector<int> const &array) {
     Machine machine;
     machine.load(std::move(program));
 
-    int A = machine.code_area_ + 1;
+    int A = machine.code_area_ + 4;
     for (int i = 0; i < array.size(); ++i) {
-        machine.set_mem(A + i, array[i]);
+        machine.set_mem(A + i * 4, array[i]);
     }
     machine.set_reg(1, A);
     machine.set_reg(2, array.size());
